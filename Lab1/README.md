@@ -1,5 +1,9 @@
 ## Enterprise Application Development Lab 1
 
+## Database Schema
+![Screenshot](/Lab1/assets/schema.png)
+
+## ReST HTTP Endpoints.
 ### `GET /users List all users`
 Sample output
 
