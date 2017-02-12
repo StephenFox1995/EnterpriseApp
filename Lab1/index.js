@@ -18,7 +18,6 @@ app.get('/users/:id', (req, res) => {
   db.users.find({ id }, (err, result) => res.send(result));
 });
 
-
 // Products endpoints
 app.get('/products', (req, res) => {
   db.run('select * from products', (err, result) => res.send(result));
