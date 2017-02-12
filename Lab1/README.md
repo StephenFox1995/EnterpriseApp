@@ -5,7 +5,7 @@ Sample output
 
 `curl -X GET http://localhost:3000/users | python -m json.tool`
 
-![Screenshot](/assets/users.png)
+![Screenshot](/Lab1/assets/users.png)
 
 ---
 
@@ -14,7 +14,7 @@ Sample output
 
 `curl -X GET http://localhost:3000/users/2 | python -m json.tool`
 
-![Screenshot](/assets/usersid.png)
+![Screenshot](/Lab1/assets/usersid.png)
 
 ---
 
@@ -23,7 +23,7 @@ Sample output
 
 `curl -X GET http://localhost:3000/products | python -m json.tool`
 
-![Screenshot](/assets/products.png)
+![Screenshot](/Lab1/assets/products.png)
 
 ---
 
@@ -32,7 +32,7 @@ Sample output
 
 `curl -X GET http://localhost:3000/products/3 | python -m json.tool`
 
-![Screenshot](/assets/productsid.png)
+![Screenshot](/Lab1/assets/productsid.png)
 
 ---
 
@@ -41,7 +41,7 @@ Sample output
 
 `curl -X GET http://localhost:3000/purchases | python -m json.tool`
 
-![Screenshot](/assets/purchases.png)
+![Screenshot](/Lab1/assets/purchases.png)
 
 ---
 
@@ -50,4 +50,4 @@ Sample output
 
 `curl -X GET http://localhost:3000/purchases/10 | python -m json.tool`
 
-![Screenshot](/assets/purchasesid.png)
+![Screenshot](/Lab1/assets/purchasesid.png)
