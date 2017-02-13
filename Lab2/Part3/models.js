@@ -38,7 +38,7 @@ module.exports = () => {
   });
 
   const Case = sequelize.define('case', {
-    judege_id: {
+    judge_id: {
       type: Sequelize.INTEGER,
       references: {
         model: Judge,
@@ -71,7 +71,7 @@ module.exports = () => {
       },
     },
     start_date: Sequelize.DATE,
-    duration: Sequelize.DATE,
+    duration: Sequelize.INTEGER,
     result: Sequelize.BOOLEAN,
   });
   return { Judge, Courtroom, Participent, Case };
