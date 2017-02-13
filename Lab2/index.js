@@ -9,30 +9,20 @@ app.get('/', (req, res) => {
   res.send('Welcome!');
 });
 
-//  Users endpoints
-app.get('/users', (req, res) => {
-  db.run('select * from users', (err, result) => res.send(result));
-});
-app.get('/users/:id', (req, res) => {
-  const id = req.params.id;
-  db.users.find({ id }, (err, result) => res.send(result));
-});
-
-// Products endpoints
-app.get('/products', (req, res) => {
+// Vulnerable to SQL Injection.
+app.get('/products/hack', (req, res) => {
   const title = req.query.title;
   db.run(`select * from products where title = ${title};`, (err, result) => res.send(result));
 });
-app.get('/products/:id', (req, res) => {
-  const id = req.params.id;
-  db.products.find({ id }, (err, result) => res.send(result));
+// Parameterised query to fix vulnerability.
+app.get('/products/safe1', (req, res) => {
+  const title = req.query.title;
+  db.run('select * from products where title = $1;', [title], (err, result) => res.send(result));
 });
-
-// Purchases endpoints
-app.get('/purchases', (req, res) => {
-  db.run('select * from purchases', (err, result) => res.send(result));
-});
-app.get('/purchases/:id', (req, res) => {
-  const id = req.params.id;
-  db.purchases.find({ id }, (err, result) => res.send(result));
+// Stored function to fix vulnerability.
+app.get('/products/safe2', (req, res) => {
+  const title = req.query.title;
+  db.get_products([title], (error, result) => {
+    res.send(result);
+  });
 });
