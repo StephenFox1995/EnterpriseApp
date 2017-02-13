@@ -27,6 +27,9 @@ database after before request:
 
 The products table was dropped.
 
+---
+
+### Part 2
 To fix this vulnerability, one can use:
 #### parameterised queries
 ```javascript 
