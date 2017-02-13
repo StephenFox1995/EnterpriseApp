@@ -5,9 +5,6 @@ const app = express();
 const db = massive.connectSync({ db: 'pgguide' });
 app.listen(3000, () => console.log('Listening on port 3000!'));
 
-app.get('/', (req, res) => {
-  res.send('Welcome!');
-});
 
 // Vulnerable to SQL Injection.
 app.get('/products/hack', (req, res) => {
