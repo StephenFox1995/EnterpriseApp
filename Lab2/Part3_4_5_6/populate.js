@@ -1,7 +1,7 @@
-const sequelize = require('./connection')();
+const sequelize = require('./connection')('postgres://@localhost:5432/test');
 const models = require('./models')();
 
-module.exports.populate = () => {
+module.exports.populate = (() => {
   const judges = [
     { name: 'Stephen Fox', room: 8, ext: 18500001 },
     { name: 'Barry Smith', room: 9, ext: 18500002 },
@@ -47,4 +47,4 @@ module.exports.populate = () => {
       models.Participent.bulkCreate(participents);
       models.Case.bulkCreate(cases);
     });
-};
+})();
