@@ -1,3 +1,5 @@
+const models = require('./models')();
+
 function Validator() { }
 
 const failedMessage = (status, reason) => ({ status, reason });
