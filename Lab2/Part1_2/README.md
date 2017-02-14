@@ -15,15 +15,15 @@ app.get('/products/hack', (req, res) => {
 
 This code allows the following HTTP request to drop the `products` table.
 
-![screenshot](/Lab2/assets/hack.png)
+![screenshot](/Lab2/Part1_2/assets/hack.png)
 
 database before request:
 
-![screenshot](/Lab2/assets/beforehack.png)
+![screenshot](/Lab2/Part1_2/assets/beforehack.png)
 
 database after before request:
 
-![screenshot](/Lab2/assets/afterhack.png)
+![screenshot](/Lab2/Part1_2/assets/afterhack.png)
 
 The products table was dropped.
 
