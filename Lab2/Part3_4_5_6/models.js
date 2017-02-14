@@ -51,7 +51,7 @@ module.exports = () => {
       references: {
         model: Courtroom,
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
+        deferrable: Sequelize.Deferrable.NOT,
       },
     },
     claimant_id: {
@@ -59,7 +59,7 @@ module.exports = () => {
       references: {
         model: Participent,
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
+        deferrable: Sequelize.Deferrable.NOT,
       },
     },
     respondent_id: {

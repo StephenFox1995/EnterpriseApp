@@ -46,15 +46,35 @@ Validator.prototype.validateJudge = (req, res, next) => {
   if (!('ext' in judge)) {
     return res.status(422).json(failedMessage('Failed', 'No ext given'));
   }
-  req.participent = judge;
+  req.judge = judge;
   return next();
 };
 
 Validator.prototype.validateCase = (req, res, next) => {
-  const _case = req.body.case || null;
-  if (!_case) {
+  const newCase = req.body.case || null;
+  if (!newCase) {
     return res.status(422).json(failedMessage('Failed', 'No case object'));
   }
+  if (!('judge_id' in newCase)) {
+    return res.status(422).json(failedMessage('Failed', 'No judge_id given'));
+  }
+  if (!('courtroom_id' in newCase)) {
+    return res.status(422).json(failedMessage('Failed', 'No courtroom_id given'));
+  }
+  if (!('respondent_id' in newCase)) {
+    return res.status(422).json(failedMessage('Failed', 'No respondent_id given'));
+  }
+  if (!('start_date' in newCase)) {
+    return res.status(422).json(failedMessage('Failed', 'No start_date given'));
+  }
+  if (!('duration' in newCase)) {
+    return res.status(422).json(failedMessage('Failed', 'No duration given'));
+  }
+  if (!('result' in newCase)) {
+    return res.status(422).json(failedMessage('Failed', 'No result given'));
+  }
+  req.case = newCase;
+  return next();
 };
 
 module.exports = Validator;
