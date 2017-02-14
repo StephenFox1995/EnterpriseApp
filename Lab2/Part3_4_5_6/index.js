@@ -30,6 +30,17 @@ app.patch('/judge/:id', validator.validateJudge, (req, res) => {
     .then(() => res.send('success'))
     .then(err => res.send(err.message));
 });
+// D
+app.delete('/judge/:id', (req, res) => {
+  const id = req.params.id;
+  // Delete from case table first.
+  models.Case.destroy({ where: { judge_id: id } })
+    .then(() => {
+      models.Judge.destroy({ where: { id } });
+    })
+    .then(() => res.send('success'))
+    .then(err => res.send(err.message));
+});
 
 // C
 app.post('/courtroom', validator.validateCourtroom, (req, res) => {
@@ -48,6 +59,17 @@ app.patch('/courtroom/:id', validator.validateCourtroom, (req, res) => {
   const id = req.params.id;
   const courtroom = req.courtroom;
   models.Courtroom.update(courtroom, { where: { id } })
+    .then(() => res.send('success'))
+    .then(err => res.send(err.message));
+});
+// D
+app.delete('/courtroom/:id', (req, res) => {
+  const id = req.params.id;
+  // Delete from case table first.
+  models.Case.destroy({ where: { courtroom_id: id } })
+    .then(() => {
+      models.Courtroom.destroy({ where: { id } });
+    })
     .then(() => res.send('success'))
     .then(err => res.send(err.message));
 });
@@ -72,6 +94,17 @@ app.patch('/participent/:id', validator.validateParticipent, (req, res) => {
     .then(() => res.send('success'))
     .then(err => res.send(err.message));
 });
+// D
+app.delete('/participent/:id', (req, res) => {
+  const id = req.params.id;
+  // Delete from case table first.
+  models.Case.destroy({ where: { $or: [{ claimant_id: id }, { respondent_id: id }] } })
+    .then(() => {
+      models.Participent.destroy({ where: { id } });
+    })
+    .then(() => res.send('success'))
+    .then(err => res.send(err.message));
+});
 
 // C
 app.post('/case', validator.validateCase, (req, res) => {
@@ -90,6 +123,13 @@ app.patch('/case/:id', validator.validateCase, (req, res) => {
   const id = req.params.id;
   const updatedCase = req.case;
   models.Case.update(updatedCase, { where: { id } })
+    .then(() => res.send('success'))
+    .then(err => res.send(err.message));
+});
+// D
+app.delete('/case/:id', (req, res) => {
+  const id = req.params.id;
+  models.Case.destroy({ where: { id } })
     .then(() => res.send('success'))
     .then(err => res.send(err.message));
 });
