@@ -9,7 +9,7 @@ const validator = new Validator();
 app.use(bodyParser.json());
 app.listen(3000, () => console.log('Listening on port 3000!'));
 
-
+// Judge
 // C
 app.post('/judge', validator.validateJudge, (req, res) => {
   const judge = req.judge;
@@ -42,6 +42,7 @@ app.delete('/judge/:id', (req, res) => {
     .then(err => res.send(err.message));
 });
 
+// Courtroom
 // C
 app.post('/courtroom', validator.validateCourtroom, (req, res) => {
   const courtroom = req.courtroom;
@@ -74,6 +75,7 @@ app.delete('/courtroom/:id', (req, res) => {
     .then(err => res.send(err.message));
 });
 
+// Participent
 // C
 app.post('/participent', validator.validateParticipent, (req, res) => {
   const participent = req.participent;
@@ -106,6 +108,7 @@ app.delete('/participent/:id', (req, res) => {
     .then(err => res.send(err.message));
 });
 
+// Case
 // C
 app.post('/case', validator.validateCase, (req, res) => {
   const newCase = req.case;
