@@ -9,13 +9,17 @@ const validator = new Validator();
 app.use(bodyParser.json());
 app.listen(3000, () => console.log('Listening on port 3000!'));
 
+function response(status, message) {
+  return { status, message };
+}
+
 // Judge
 // C
 app.post('/judge', validator.validateJudge, (req, res) => {
   const judge = req.judge;
   models.Judge.create(judge)
-    .then(() => res.send('success'))
-    .catch(() => res.send('Failed'));
+    .then(() => res.send(response('success', 'inserted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
 app.get('/judge/:id', (req, res) => {
@@ -27,8 +31,8 @@ app.patch('/judge/:id', validator.validateJudge, (req, res) => {
   const id = req.params.id;
   const judge = req.judge;
   models.Judge.update(judge, { where: { id } })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'updated successfully')))
+    .catch(err => res.send(response('failed', err.message)));
 });
 // D
 app.delete('/judge/:id', (req, res) => {
@@ -38,8 +42,8 @@ app.delete('/judge/:id', (req, res) => {
     .then(() => {
       models.Judge.destroy({ where: { id } });
     })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'deleted successfully')))
+    .then(err => res.send(response('failed', err.message)));
 });
 
 // Courtroom
@@ -47,8 +51,8 @@ app.delete('/judge/:id', (req, res) => {
 app.post('/courtroom', validator.validateCourtroom, (req, res) => {
   const courtroom = req.courtroom;
   models.Courtroom.create(courtroom)
-    .then(() => res.send('success'))
-    .catch(() => res.send('Failed'));
+    .then(() => res.send(response('success', 'inserted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
 app.get('/courtroom/:id', (req, res) => {
@@ -60,8 +64,8 @@ app.patch('/courtroom/:id', validator.validateCourtroom, (req, res) => {
   const id = req.params.id;
   const courtroom = req.courtroom;
   models.Courtroom.update(courtroom, { where: { id } })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'updated successfully')))
+    .catch(err => res.send(response('failed', err.message)));
 });
 // D
 app.delete('/courtroom/:id', (req, res) => {
@@ -71,8 +75,8 @@ app.delete('/courtroom/:id', (req, res) => {
     .then(() => {
       models.Courtroom.destroy({ where: { id } });
     })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'deleted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
 
 // Participent
@@ -80,8 +84,8 @@ app.delete('/courtroom/:id', (req, res) => {
 app.post('/participent', validator.validateParticipent, (req, res) => {
   const participent = req.participent;
   models.Participent.create(participent)
-    .then(() => res.send('success'))
-    .catch(() => res.send('Failed'));
+    .then(() => res.send(response('success', 'inserted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
 app.get('/participent/:id', (req, res) => {
@@ -93,8 +97,8 @@ app.patch('/participent/:id', validator.validateParticipent, (req, res) => {
   const id = req.params.id;
   const participent = req.participent;
   models.Participent.update(participent, { where: { id } })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'updated successfully')))
+    .catch(err => res.send(response('failed', err.message)));
 });
 // D
 app.delete('/participent/:id', (req, res) => {
@@ -104,8 +108,8 @@ app.delete('/participent/:id', (req, res) => {
     .then(() => {
       models.Participent.destroy({ where: { id } });
     })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'deleted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
 
 // Case
@@ -113,8 +117,8 @@ app.delete('/participent/:id', (req, res) => {
 app.post('/case', validator.validateCase, (req, res) => {
   const newCase = req.case;
   models.Case.create(newCase)
-    .then(() => res.send('success'))
-    .catch(err => res.send(err.message));
+    .then(() => res.send(response('success', 'inserted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
 app.get('/case/:id', (req, res) => {
@@ -126,13 +130,13 @@ app.patch('/case/:id', validator.validateCase, (req, res) => {
   const id = req.params.id;
   const updatedCase = req.case;
   models.Case.update(updatedCase, { where: { id } })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'updated successfully')))
+    .catch(err => res.send(response('failed', err.message)));
 });
 // D
 app.delete('/case/:id', (req, res) => {
   const id = req.params.id;
   models.Case.destroy({ where: { id } })
-    .then(() => res.send('success'))
-    .then(err => res.send(err.message));
+    .then(() => res.send(response('success', 'deleted successfully')))
+    .catch(() => res.send(response('failed', 'an error occurred')));
 });
