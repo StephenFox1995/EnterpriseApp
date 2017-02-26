@@ -32,10 +32,10 @@ Read - GET participent
 curl http://localhost:3000/participent/5 -X GET
 ```
 
-Update - PATCH participent
+Update - PUT participent
 
 ```bash
-curl http://localhost:3000/participent/5 -X PATCH -d \
+curl http://localhost:3000/participent/5 -X PUT -d \
 '{
 	"participent": {
 		"name": "Alice Fink",
@@ -68,10 +68,10 @@ Read - GET courtroom
 curl http://localhost:3000/courtroom/6 -X GET -d
 ```
 
-Update - PATCH courtroom
+Update - PUT courtroom
 
 ```bash
-curl http://localhost:3000/courtroom/6 -X PATCH -d \
+curl http://localhost:3000/courtroom/6 -X PUT -d \
 '{
 	"courtroom": { "number": 666 }
 }'
@@ -104,10 +104,10 @@ Read - GET judge
 curl http://localhost:3000/judge/1 -X GET
 ```
 
-Update - PATCH judge
+Update - PUT judge
 
 ```bash
-curl http://localhost:3000/judge/1 -X PATCH -d \
+curl http://localhost:3000/judge/1 -X PUT -d \
 '{
 	"judge": {
 		"name": "Stephen Fox",
@@ -147,10 +147,10 @@ Read - GET case
 curl http://localhost:3000/case/1 -X GET
 ```
 
-Read - PATCH case
+Read - PUT case
 
 ```bash
-curl http://localhost:3000/case/1 -X PATCH -d \
+curl http://localhost:3000/case/1 -X PUT -d \
 '{
 	"case": {
 		"judge_id": 1,
