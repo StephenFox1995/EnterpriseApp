@@ -27,7 +27,7 @@ app.get('/judge/:id', (req, res) => {
   models.Judge.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.patch('/judge/:id', validator.validateJudge, (req, res) => {
+app.put('/judge/:id', validator.validateJudge, (req, res) => {
   const id = req.params.id;
   const judge = req.judge;
   models.Judge.update(judge, { where: { id } })
@@ -60,7 +60,7 @@ app.get('/courtroom/:id', (req, res) => {
   models.Courtroom.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.patch('/courtroom/:id', validator.validateCourtroom, (req, res) => {
+app.put('/courtroom/:id', validator.validateCourtroom, (req, res) => {
   const id = req.params.id;
   const courtroom = req.courtroom;
   models.Courtroom.update(courtroom, { where: { id } })
@@ -93,7 +93,7 @@ app.get('/participent/:id', (req, res) => {
   models.Participent.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.patch('/participent/:id', validator.validateParticipent, (req, res) => {
+app.put('/participent/:id', validator.validateParticipent, (req, res) => {
   const id = req.params.id;
   const participent = req.participent;
   models.Participent.update(participent, { where: { id } })
@@ -126,7 +126,7 @@ app.get('/case/:id', (req, res) => {
   models.Case.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.patch('/case/:id', validator.validateCase, (req, res) => {
+app.put('/case/:id', validator.validateCase, (req, res) => {
   const id = req.params.id;
   const updatedCase = req.case;
   models.Case.update(updatedCase, { where: { id } })

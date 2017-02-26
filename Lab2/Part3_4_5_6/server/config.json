@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "stephenfox",
+    "password": null,
+    "database": "court",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "stephenfox",
+    "password": null,
+    "database": "court",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "stephenfox",
+    "password": null,
+    "database": "court",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

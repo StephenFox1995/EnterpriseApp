@@ -6,7 +6,8 @@ see models.js
 --- 
 
 ### Part 4
-see populate.js
+see populate.js, this script will populate the database.
+Usage: node populate.js
 
 --- 
 
