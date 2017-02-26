@@ -76,18 +76,22 @@ Validator.prototype.validateCase = (req, res, next) => {
     return res.status(422).json(failedMessage('Failed', 'No result given'));
   }
   // Check no double booking for courtrooms is allowed.
-  models.Case.findAll({
-    where: {
-      $and: { courtroom_id: newCase.courtroom_id, start_date: newCase.start_date },
-    },
-  })
-    .then((data) => {
-      console.log(data);
-      if (data.length > 1) {
-        res.status(422).json(failedMessage('Failed', 'No double bookings allowed given'));
-      }
-      next();
-    });
+  // models.Case.findAll({
+  //   where: {
+  //     start_date: { 
+  //       $overlap: [newCase.start_date, newCase.start_date + newCase.duration] 
+  //     } 
+  //   }
+  // })
+  // .then((data) => {
+  //     console.log(data);
+  //     if (data.length > 1) {
+  //       res.status(422).json(failedMessage('Failed', 'No double bookings allowed given'));
+  //     }
+  //     next();
+  //   });
+  req.case = newCase;
+  next();
 };
 
 module.exports = Validator;
