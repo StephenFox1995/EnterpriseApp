@@ -1,32 +1,73 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require('./connection')('postgres://@localhost:5432/auth');
 const models = require('./models')();
 const Validator = require('./validator');
+const auth = require('./auth');
 
 const app = express();
 const validator = new Validator();
+
 app.use(bodyParser.json());
 app.listen(3000, () => console.log('Listening on port 3000!'));
+app.all('/court/*', auth.guardEndpoint)
 
-function response(status, message) {
-  return { status, message };
+const response = (status, message, data=undefined) => {
+  return { status, message, data };
 }
+
+
+// Authentication
+app.post('/register', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const username = req.body.username;
+  const insert = "INSERT INTO users (email, password, username) VALUES \
+    (:email, crypt(:password, gen_salt('bf', 8)), :username);";
+  models.sequelize.query(insert, { replacements: { email, password, username } }).then(() => {
+    res.send(response("Sucess", "Successfully registered"))
+  });
+});
+
+app.post('/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const query = 'SELECT * FROM users WHERE email = lower(:email) AND \
+    password = crypt(:password, password);';
+  models.sequelize.query(query, { replacements: { email, password } })
+    .then((result) => {
+      if (result[0].length == 0) {
+        res.send(response('Failed', 'Incorrect password or email'))
+      } else {
+        const token = auth.generateToken(result[0][0])
+        res.send(response('Sucess', 'Successful Authentication', {
+          'token': token
+        }))
+      }
+    })
+    .catch(() => {
+      res
+        .status(401)
+        .json(response('Failed', 'Incorrect password or email'))
+    });
+});
+
 
 // Judge
 // C
-app.post('/judge', validator.validateJudge, (req, res) => {
+app.post('/court/judge', validator.validateJudge, (req, res) => {
   const judge = req.judge;
   models.Judge.create(judge)
     .then(() => res.send(response('success', 'inserted successfully')))
     .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
-app.get('/judge/:id', (req, res) => {
+app.get('/court/judge/:id', (req, res) => {
   const id = req.params.id;
   models.Judge.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.put('/judge/:id', validator.validateJudge, (req, res) => {
+app.put('/court/judge/:id', validator.validateJudge, (req, res) => {
   const id = req.params.id;
   const judge = req.judge;
   models.Judge.update(judge, { where: { id } })
@@ -34,7 +75,7 @@ app.put('/judge/:id', validator.validateJudge, (req, res) => {
     .catch(err => res.send(response('failed', err.message)));
 });
 // D
-app.delete('/judge/:id', (req, res) => {
+app.delete('/court/judge/:id', (req, res) => {
   const id = req.params.id;
   // Delete from case table first.
   models.Case.destroy({ where: { judge_id: id } })
@@ -47,19 +88,19 @@ app.delete('/judge/:id', (req, res) => {
 
 // Courtroom
 // C
-app.post('/courtroom', validator.validateCourtroom, (req, res) => {
+app.post('/court/courtroom', validator.validateCourtroom, (req, res) => {
   const courtroom = req.courtroom;
   models.Courtroom.create(courtroom)
     .then(() => res.send(response('success', 'inserted successfully')))
     .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
-app.get('/courtroom/:id', (req, res) => {
+app.get('/court/courtroom/:id', (req, res) => {
   const id = req.params.id;
   models.Courtroom.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.put('/courtroom/:id', validator.validateCourtroom, (req, res) => {
+app.put('/court/courtroom/:id', validator.validateCourtroom, (req, res) => {
   const id = req.params.id;
   const courtroom = req.courtroom;
   models.Courtroom.update(courtroom, { where: { id } })
@@ -67,7 +108,7 @@ app.put('/courtroom/:id', validator.validateCourtroom, (req, res) => {
     .catch(err => res.send(response('failed', err.message)));
 });
 // D
-app.delete('/courtroom/:id', (req, res) => {
+app.delete('/court/courtroom/:id', (req, res) => {
   const id = req.params.id;
   // Delete from case table first.
   models.Case.destroy({ where: { courtroom_id: id } })
@@ -80,19 +121,19 @@ app.delete('/courtroom/:id', (req, res) => {
 
 // Participent
 // C
-app.post('/participent', validator.validateParticipent, (req, res) => {
+app.post('/court/participent', validator.validateParticipent, (req, res) => {
   const participent = req.participent;
   models.Participent.create(participent)
     .then(() => res.send(response('success', 'inserted successfully')))
     .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
-app.get('/participent/:id', (req, res) => {
+app.get('/court/participent/:id', (req, res) => {
   const id = req.params.id;
   models.Participent.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.put('/participent/:id', validator.validateParticipent, (req, res) => {
+app.put('/court/participent/:id', validator.validateParticipent, (req, res) => {
   const id = req.params.id;
   const participent = req.participent;
   models.Participent.update(participent, { where: { id } })
@@ -100,7 +141,7 @@ app.put('/participent/:id', validator.validateParticipent, (req, res) => {
     .catch(err => res.send(response('failed', err.message)));
 });
 // D
-app.delete('/participent/:id', (req, res) => {
+app.delete('/court/participent/:id', (req, res) => {
   const id = req.params.id;
   // Delete from case table first.
   models.Case.destroy({ where: { $or: [{ claimant_id: id }, { respondent_id: id }] } })
@@ -113,19 +154,19 @@ app.delete('/participent/:id', (req, res) => {
 
 // Case
 // C
-app.post('/case', validator.validateCase, (req, res) => {
+app.post('/court/case', validator.validateCase, (req, res) => {
   const newCase = req.case;
   models.Case.create(newCase)
     .then(() => res.send(response('success', 'inserted successfully')))
     .catch(() => res.send(response('failed', 'an error occurred')));
 });
 // R
-app.get('/case/:id', (req, res) => {
+app.get('/court/case/:id', (req, res) => {
   const id = req.params.id;
   models.Case.findAll({ where: { id } }).then(data => res.send(data));
 });
 // U
-app.put('/case/:id', validator.validateCase, (req, res) => {
+app.put('/court/case/:id', validator.validateCase, (req, res) => {
   const id = req.params.id;
   const updatedCase = req.case;
   models.Case.update(updatedCase, { where: { id } })
@@ -133,7 +174,7 @@ app.put('/case/:id', validator.validateCase, (req, res) => {
     .catch(err => res.send(response('failed', err.message)));
 });
 // D
-app.delete('/case/:id', (req, res) => {
+app.delete('/court/case/:id', (req, res) => {
   const id = req.params.id;
   models.Case.destroy({ where: { id } })
     .then(() => res.send(response('success', 'deleted successfully')))
