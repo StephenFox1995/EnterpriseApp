@@ -156,7 +156,7 @@ If authenticated or validated, the API return code should be in the 2xx range, o
 #### solution
 Extend the users table or add another apikeys table to include an access key (160 bits) and secret key (320 bits)
 
-![screenshot](/Lab3/Part1/assets/usersextended.png)
+![screenshot](/Lab3/assets/usersextended.png)
 
 ### Part 4
 Implement a Hash-based message authentication scheme to secure the API. In your solution you should include the following API message contents as part of the hashed/signed component:
